@@ -1,4 +1,6 @@
 import pickle
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 def write_mbircone_params(filename,
                           angles, num_det_rows, num_det_channels, dist_source_detector, magnification,
@@ -41,6 +43,8 @@ def write_mbircone_params(filename,
     geo_params_mbircone["det_row_offset"] = det_row_offset
     geo_params_mbircone["rotation_offset"] = rotation_offset
 
+    print(f"write_mbircone_params(): the following parameters are saved into {filename}: ")
+    pp.pprint(geo_params_mbircone)
     # save the dictionary as a pickle file
     with open(filename, 'wb') as f:
         pickle.dump(geo_params_mbircone, f)
@@ -68,6 +72,10 @@ def read_mbircone_params(filename):
 
     with open('saved_dictionary.pkl', 'rb') as f:
         geo_params_mbircone = pickle.load(f)
+    
+    print(f"read_mbircone_params(): the following MBIRCONE parameters are loaded from {filename}: ")
+    pp.pprint(geo_params_mbircone)
+
     return geo_params_mbircone
 
 def param_convert_cone_to_jax(geo_params_mbircone):
@@ -123,5 +131,8 @@ def param_convert_cone_to_jax(geo_params_mbircone):
     
     # calculate source_iso_dist based on magnification and dist_source_detector
     geo_params_mbirjax["source_iso_dist"] = geo_params_mbirjax["source_detector_dist"]/geo_params_mbirjax["magnification"]
- 
+     
+    print(f"param_convert_cone_to_jax(): MBIRJAX parameters:")
+    pp.pprint(geo_params_mbirjax)
+
     return geo_params_mbirjax
