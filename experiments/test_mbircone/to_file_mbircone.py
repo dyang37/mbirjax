@@ -34,24 +34,25 @@ def to_file_mbircone(filename,
     # construct a dictionary containing MBIRCONE geometry parameters
     params_dict_mbircone = {}
     params_dict_mbircone["angles"] = angles
-    params_dict_mbircone["num_det_rows"] = num_det_rows
-    params_dict_mbircone["num_det_channels"] = num_det_channels
-    params_dict_mbircone["dist_source_detector"] = dist_source_detector
-    params_dict_mbircone["magnification"] = magnification
-    params_dict_mbircone["delta_det_channel"] = delta_det_channel
-    params_dict_mbircone["delta_det_row"] = delta_det_row
+    params_dict_mbircone["num_det_rows"] = int(num_det_rows)
+    params_dict_mbircone["num_det_channels"] = int(num_det_channels)
+    params_dict_mbircone["dist_source_detector"] = float(dist_source_detector)
+    params_dict_mbircone["magnification"] = float(magnification)
+    params_dict_mbircone["delta_det_channel"] = float(delta_det_channel)
+    params_dict_mbircone["delta_det_row"] = float(delta_det_row)
     if delta_pixel_image is None:
         delta_pixel_image = delta_det_channel/magnification
-    params_dict_mbircone["delta_pixel_image"] = delta_pixel_image
-    params_dict_mbircone["det_channel_offset"] = det_channel_offset
-    params_dict_mbircone["det_row_offset"] = det_row_offset
-    params_dict_mbircone["rotation_offset"] = rotation_offset
+    params_dict_mbircone["delta_pixel_image"] = float(delta_pixel_image)
+    params_dict_mbircone["det_channel_offset"] = float(det_channel_offset)
+    params_dict_mbircone["det_row_offset"] = float(det_row_offset)
+    params_dict_mbircone["rotation_offset"] = float(rotation_offset)
 
     print(f"to_file_mbircone(): MBIRCONE parameters: ")
     pp.pprint(params_dict_mbircone)
     
     # save parameters as a yaml file
     output_params_mbircone = convert_arrays_to_strings_mbircone(params_dict_mbircone.copy()) # convert arrays to strings
+    
     if filename[-4:] == '.yml' or filename[-5:] == '.yaml':
         # Save the full parameter dictionary
         with open(filename, 'w') as file:
@@ -78,7 +79,7 @@ def convert_arrays_to_strings_mbircone(cur_params):
             formatted_string = " ".join(f"{x:.7f}" for x in cur_array.flatten())
             # Include a prefix for identification upon reading
             new_val = array_prefix + formatted_string
-            cur_params[key] = {'val': new_val, 'shape': param_val.shape}
-        else:
+            cur_params[key] = {'val': new_val, 'shape':param_val.shape}
+        else: 
             cur_params[key] = {'val': param_val}
     return cur_params
