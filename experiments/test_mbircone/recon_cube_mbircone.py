@@ -17,11 +17,11 @@ This script performs the following steps:
 # ###########################################################################
 
 ############## MBIRCONE geometry parameters
-num_det_rows = 128                           # Number of detector rows
-num_det_channels = 128                       # Number of detector channels
-dist_source_detector = 3.0*num_det_channels  # Distance from source to detector in ALU
-magnification = 2.0                          # Ratio of (source to detector)/(source to center of rotation)
-num_views = 64                               # Number of projection views
+num_det_rows = 64                           # Number of detector rows
+num_det_channels = 64                       # Number of detector channels
+dist_source_detector = 4.0*num_det_channels  # Distance from source to detector in ALU
+magnification = 1.0                          # Ratio of (source to detector)/(source to center of rotation)
+num_views = 32                               # Number of projection views
 
 # Generate uniformly spaced view angles in the range [0, 2*pi).
 angles = np.linspace(0, 2 * np.pi, num_views, endpoint=False)
@@ -47,7 +47,7 @@ phantom = np.zeros((num_phantom_slices, num_phantom_rows, num_phantom_cols))
 # Set the central cubic region to 0.1
 phantom[num_phantom_slices//4:num_phantom_slices*3//4,
         num_phantom_rows//4:num_phantom_rows*3//4,
-        num_phantom_slices//4:num_phantom_cols*3//4] = 0.1
+        num_phantom_cols//4:num_phantom_cols*3//4] = 0.1
 print('Phantom shape = ', np.shape(phantom))
 
 ######################################################################################
@@ -75,6 +75,9 @@ print('Performing 3D qGGMRF reconstruction ...\n')
 recon = mbircone.cone3D.recon(sino, angles, dist_source_detector, magnification, sharpness=sharpness, snr_db=snr_db)
 (num_image_slices, num_image_rows, num_image_cols) = np.shape(recon)
 print('recon shape = ', np.shape(recon))
+
+# save recon data to disk
+np.save(os.path.join(save_path, "recon.npy"), recon)
 
 ######################################################################################
 # Display phantom, synthetic sinogram, and reconstruction images
