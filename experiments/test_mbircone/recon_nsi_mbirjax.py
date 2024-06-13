@@ -75,7 +75,6 @@ if __name__ == "__main__":
     recon_jax = recon_jax[:,:,::-1]
    
     recon_mbircone = np.load(os.path.join(save_path_mbircone, "recon_mbir.npy")) 
-    print("NRMSE(recon_jax, recon_mbircone) = ", nrmse(recon_jax, recon_mbircone))
     # Display results
     pu.slice_viewer(recon_mbircone, recon_jax, vmin=0, vmax=0.015, slice_axis=0, slice_label='Axial Slice', title='MBIRCONE recon (left) vs MBIRJAX recon (right)')
     pu.slice_viewer(recon_mbircone, recon_jax, vmin=0, vmax=0.015, slice_axis=1, slice_label='Coronal Slice', title='MBIRCONE recon (left) vs MBIRJAX recon (right)')
