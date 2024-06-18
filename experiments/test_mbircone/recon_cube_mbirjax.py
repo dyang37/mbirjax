@@ -5,7 +5,6 @@ import pprint
 import jax.numpy as jnp
 import mbirjax
 import mbirjax.plot_utils as pu
-from demo_utils import plot_image, nrmse
 
 if __name__ == "__main__":
     """
