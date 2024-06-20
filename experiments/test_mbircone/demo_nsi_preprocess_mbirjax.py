@@ -106,11 +106,7 @@ if __name__ == "__main__":
           "\n*******************************************************")
     sino = preprocess_nsi.correct_det_rotation(sino, det_rotation=geo_params_jax["det_rotation"])
      
-    print("\n*******************************************************",
-          "\n************** Calculate sinogram weights *************",
-          "\n*******************************************************")
-    weights = ct_model.gen_weights(sino, weight_type='transmission_root')
-    
+   
     print("\n*******************************************************",
           "\n***************** Set up MBIRJAX model ****************",
           "\n*******************************************************")
@@ -132,6 +128,11 @@ if __name__ == "__main__":
     
     # Print out model parameters
     ct_model.print_params()
+     
+    print("\n*******************************************************",
+          "\n************** Calculate sinogram weights *************",
+          "\n*******************************************************")
+    weights = ct_model.gen_weights(sino, weight_type='transmission_root')
      
     print("\n*******************************************************",
           "\n************** Perform VCD reconstruction *************",
